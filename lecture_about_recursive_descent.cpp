@@ -11,12 +11,12 @@ int get_e ();
 int get_t ();
 int get_p ();
 
-int main ()
-{
-	printf ("result: %d\n", get_g ());
+// int main ()
+// {
+// 	printf ("result: %d\n", get_g ());
 
-	return 0;
-}
+// 	return 0;
+// }
 
 //--------------------------------------------------------------------
 
