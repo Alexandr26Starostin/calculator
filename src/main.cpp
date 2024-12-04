@@ -7,7 +7,7 @@ int main ()
 {
 	printf ("Привет!\n\n");
 
-	char str[MAX_LEN_STR] = "12+42-30";
+	char str[MAX_LEN_STR] = "12/12+42/21-1*3+5";
 
 	size_t index = 0;
 
