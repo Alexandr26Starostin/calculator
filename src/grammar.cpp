@@ -10,12 +10,11 @@ calculate_error_t get_g (char* str, size_t* ptr_index, double* ptr_value)
 	assert (ptr_index);
 	assert (ptr_value);
 
-	calculate_error_t status = get_n (str, ptr_index, ptr_value);
+	double value = 0;
 
-	if (status)
-	{
-		return status;
-	}
+	calculate_error_t status = get_n (str, ptr_index, &value);
+
+	if (status) {return status;}
 
 	if (str[*ptr_index] != '\0')
 	{
@@ -25,6 +24,7 @@ calculate_error_t get_g (char* str, size_t* ptr_index, double* ptr_value)
 		return ERROR_IN_GET_G;
 	}
 
+	*ptr_value = value;
 	(*ptr_index)++;
 
 	return status;
@@ -36,11 +36,13 @@ calculate_error_t get_n (char* str, size_t* ptr_index, double* ptr_value)
 	assert (ptr_index);
 	assert (ptr_value);
 
+	double value = 0;
+
 	size_t old_index = *ptr_index;
 
 	if ('0' <= str[*ptr_index] && str[*ptr_index] <= '9')
 	{
-		*ptr_value += str[*ptr_index] - '0';
+		value += str[*ptr_index] - '0';
 
 		(*ptr_index)++;
 	}
@@ -52,6 +54,8 @@ calculate_error_t get_n (char* str, size_t* ptr_index, double* ptr_value)
 
 		return ERROR_IN_GET_N;
 	}
+
+	*ptr_value = value;
 
 	return NOT_ERROR;
 }
