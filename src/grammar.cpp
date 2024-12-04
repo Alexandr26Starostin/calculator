@@ -107,7 +107,7 @@ calculate_error_t get_t (char* str, size_t* ptr_index, double* ptr_value)
 	double value_2   = 0;
 	size_t old_index = 0;
 
-	calculate_error_t status = get_n (str, ptr_index, &value_1);
+	calculate_error_t status = get_p (str, ptr_index, &value_1);
 	if (status) {return status;}
 
 	while (str[*ptr_index] == '*' || str[*ptr_index] == '/')
@@ -116,7 +116,7 @@ calculate_error_t get_t (char* str, size_t* ptr_index, double* ptr_value)
 
 		(*ptr_index)++;
 
-		status = get_n (str, ptr_index, &value_2);
+		status = get_p (str, ptr_index, &value_2);
 		if (status) {return status;}
 
 		if (str[old_index] == '*')
@@ -124,7 +124,7 @@ calculate_error_t get_t (char* str, size_t* ptr_index, double* ptr_value)
 			value_1 *= value_2;
 		}
 
-		else  //str[old_index] == '-'
+		else  //str[old_index] == '/'
 		{
 			value_1 /= value_2;
 		}
@@ -133,4 +133,47 @@ calculate_error_t get_t (char* str, size_t* ptr_index, double* ptr_value)
 	*ptr_value = value_1;
 
 	return status;
+}
+
+calculate_error_t get_p (char* str, size_t* ptr_index, double* ptr_value)
+{
+	assert (str);
+	assert (ptr_index);
+	assert (ptr_value);
+
+	double value = 0;
+
+	calculate_error_t status = NOT_ERROR;
+
+	if (str[*ptr_index] == '(')
+	{
+		(*ptr_index)++;
+
+		status = get_e (str, ptr_index, &value);
+		if (status) {return status;}
+
+		if (str[*ptr_index] != ')')
+		{
+			printf ("Error in %s:%d\n\n", __FILE__, __LINE__);
+			printf ("Error from 'get_p' in str on position: %ld\n\n'get_p' wait: ')', but find '%c'\n\n", *ptr_index, str[*ptr_index]);
+
+			return ERROR_IN_GET_P;
+		}
+
+		(*ptr_index)++;
+
+		*ptr_value = value;
+
+		return status;
+	}
+
+	else
+	{
+		status = get_n (str, ptr_index, &value);
+		if (status) {return status;}
+
+		*ptr_value = value;
+
+		return status;
+	}
 }
