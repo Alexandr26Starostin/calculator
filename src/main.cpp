@@ -7,7 +7,7 @@ int main ()
 {
 	printf ("Привет!\n\n");
 
-	char str[MAX_LEN_STR] = "7";
+	char str[MAX_LEN_STR] = "1707";
 
 	size_t index = 0;
 

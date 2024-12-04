@@ -40,9 +40,9 @@ calculate_error_t get_n (char* str, size_t* ptr_index, double* ptr_value)
 
 	size_t old_index = *ptr_index;
 
-	if ('0' <= str[*ptr_index] && str[*ptr_index] <= '9')
+	while ('0' <= str[*ptr_index] && str[*ptr_index] <= '9')
 	{
-		value += str[*ptr_index] - '0';
+		value = value * 10 + str[*ptr_index] - '0';
 
 		(*ptr_index)++;
 	}
