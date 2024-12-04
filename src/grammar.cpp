@@ -12,8 +12,7 @@ calculate_error_t get_g (char* str, size_t* ptr_index, double* ptr_value)
 
 	double value = 0;
 
-	calculate_error_t status = get_n (str, ptr_index, &value);
-
+	calculate_error_t status = get_e (str, ptr_index, &value);
 	if (status) {return status;}
 
 	if (str[*ptr_index] != '\0')
@@ -58,4 +57,42 @@ calculate_error_t get_n (char* str, size_t* ptr_index, double* ptr_value)
 	*ptr_value = value;
 
 	return NOT_ERROR;
+}
+
+calculate_error_t get_e (char* str, size_t* ptr_index, double* ptr_value)
+{
+	assert (str);
+	assert (ptr_index);
+	assert (ptr_value);
+
+	double value_1   = 0;
+	double value_2   = 0;
+	size_t old_index = 0;
+
+	calculate_error_t status = get_n (str, ptr_index, &value_1);
+	if (status) {return status;}
+
+	while (str[*ptr_index] == '+' || str[*ptr_index] == '-')
+	{
+		old_index = *ptr_index;
+
+		(*ptr_index)++;
+
+		status = get_n (str, ptr_index, &value_2);
+		if (status) {return status;}
+
+		if (str[old_index] == '+')
+		{
+			value_1 += value_2;
+		}
+
+		else  //str[old_index] == '-'
+		{
+			value_1 -= value_2;
+		}
+	}
+
+	*ptr_value = value_1;
+
+	return status;
 }
